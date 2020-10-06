@@ -2,6 +2,7 @@ package com.fady.moviemaster.datamodel.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "movie")
 data class Movie(
@@ -15,4 +16,4 @@ data class Movie(
     var genres: List<String>?,
 
     var rating: Int?
-)
+) : Serializable

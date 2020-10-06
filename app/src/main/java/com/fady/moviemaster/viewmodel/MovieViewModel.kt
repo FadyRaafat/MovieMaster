@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.fady.moviemaster.datamodel.models.Movie
 import com.fady.moviemaster.datamodel.repository.MovieRepository
+import java.util.concurrent.Executors
 
 class MovieViewModel(application: Application) :
     AndroidViewModel(application) {
@@ -25,10 +26,11 @@ class MovieViewModel(application: Application) :
     }
 
 
-    fun search(searchQuery: String): MutableLiveData<List<Movie>> {
-        mRepository.search(searchQuery)
+    fun search(searchQuery: String): MutableLiveData<MutableMap<Int, List<Movie>>> {
+        Executors.newSingleThreadExecutor().execute {
+            mRepository.executeSearch(searchQuery)
+        }
         return mRepository.moviesMutableLiveData
-
     }
 
 

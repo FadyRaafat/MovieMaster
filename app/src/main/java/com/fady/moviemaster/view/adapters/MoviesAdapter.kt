@@ -1,13 +1,17 @@
 package com.fady.moviemaster.view.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.fady.moviemaster.R
 import com.fady.moviemaster.datamodel.models.Movie
 import kotlinx.android.synthetic.main.item_movie.view.*
+
+@SuppressLint("SetTextI18n")
 
 class MoviesAdapter(private val moviesList: List<Movie>) :
     RecyclerView.Adapter<MoviesAdapter.MoviesHolder>() {
@@ -21,7 +25,8 @@ class MoviesAdapter(private val moviesList: List<Movie>) :
     override fun onBindViewHolder(holder: MoviesHolder, position: Int) {
         val movie = moviesList[position]
         holder.movieTitle.text = movie.title
-        holder.movieYear.text = movie.year.toString()
+        holder.movieYear.text = "(" + movie.year.toString() + ")"
+        holder.movieRating.rating = movie.rating!!.toFloat()
 
 
     }
@@ -38,6 +43,7 @@ class MoviesAdapter(private val moviesList: List<Movie>) :
     inner class MoviesHolder(view: View) : RecyclerView.ViewHolder(view) {
         val movieTitle: TextView = view.movieTitle_TV
         val movieYear: TextView = view.movieYear_TV
+        val movieRating : RatingBar = view.movieRating_RB
 
     }
 
