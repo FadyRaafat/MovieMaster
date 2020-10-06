@@ -17,7 +17,7 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapt
 import kotlinx.android.synthetic.main.activity_home.*
 
 
-class HomeActivity : AppCompatActivity(), MoviesSection.ClickListener {
+class HomeActivity : AppCompatActivity(), MoviesSection.ClickListener, MoviesAdapter.ClickListener {
     private lateinit var movieViewModel: MovieViewModel
     var sectionedAdapter: SectionedRecyclerViewAdapter? = null
 
@@ -91,7 +91,7 @@ class HomeActivity : AppCompatActivity(), MoviesSection.ClickListener {
 
     private fun updateMoviesRV(movies: List<Movie>) {
         fillingView()
-        val adapter = MoviesAdapter(movies)
+        val adapter = MoviesAdapter(movies,this)
         movies_RV.adapter = adapter
         initRecyclerView()
     }
@@ -110,6 +110,16 @@ class HomeActivity : AppCompatActivity(), MoviesSection.ClickListener {
         startActivity(intent)
 
     }
+
+    override fun onMovieClicked(
+        selectedMovie: Movie
+    ) {
+        val intent = Intent(this, MovieDetailsActivity::class.java)
+        intent.putExtra("selectedMovie", selectedMovie)
+        startActivity(intent)
+
+    }
+
 
 
 }

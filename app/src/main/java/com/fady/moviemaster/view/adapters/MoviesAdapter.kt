@@ -13,7 +13,8 @@ import kotlinx.android.synthetic.main.item_movie.view.*
 
 @SuppressLint("SetTextI18n")
 
-class MoviesAdapter(private val moviesList: List<Movie>) :
+class MoviesAdapter(private val moviesList: List<Movie>,
+                    private val clickListener: ClickListener) :
     RecyclerView.Adapter<MoviesAdapter.MoviesHolder>() {
 
 
@@ -27,6 +28,8 @@ class MoviesAdapter(private val moviesList: List<Movie>) :
         holder.movieTitle.text = movie.title
         holder.movieYear.text = "(" + movie.year.toString() + ")"
         holder.movieRating.rating = movie.rating!!.toFloat()
+        holder.itemView.setOnClickListener {
+            clickListener.onMovieClicked(movie)}
 
 
     }
@@ -50,6 +53,13 @@ class MoviesAdapter(private val moviesList: List<Movie>) :
     override fun getItemCount(): Int {
         return moviesList.size
     }
+
+    interface ClickListener {
+        fun onMovieClicked(
+            selectedMovie: Movie
+        )
+    }
+
 
 
 }
