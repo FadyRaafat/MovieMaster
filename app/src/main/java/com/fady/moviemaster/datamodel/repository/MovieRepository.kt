@@ -3,18 +3,20 @@ package com.fady.moviemaster.datamodel.repository
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.paging.DataSource
 import com.fady.moviemaster.datamodel.models.Movie
 import com.fady.moviemaster.datamodel.models.Movies
 import com.fady.moviemaster.datamodel.room.AppDataBase
 import com.fady.moviemaster.datamodel.room.MovieDAO
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.util.*
+import java.util.concurrent.Executors
+import kotlin.collections.ArrayList
 
 class MovieRepository(application: Application) {
     private val appDB: AppDataBase = AppDataBase.getDatabase(application)!!
     private val movieDAO: MovieDAO
-    val moviesMutableLiveData = MutableLiveData<List<Movie>>()
+    val moviesMutableLiveData = MutableLiveData<MutableMap<Int, List<Movie>>>()
 
 
     init {
@@ -41,11 +43,21 @@ class MovieRepository(application: Application) {
     }
 
     fun upsertingMoviesList(applicationContext: Application) {
-        val movies = parseJSONToModel(applicationContext).movies!!
-        movieDAO.upsert(movies)
+        Executors.newSingleThreadExecutor().execute {
+            val movies = parseJSONToModel(applicationContext).movies!!
+            movieDAO.upsert(movies)
+        }
     }
 
-    fun search(searchQuery: String) {
+
+    fun executeSearch(searchQuery: String) {
+        val queriedMoviesResult = search(searchQuery)
+        val yearsList = extractYearList(queriedMoviesResult)
+        moviesMutableLiveData.postValue(execute(yearsList, queriedMoviesResult))
+
+    }
+
+    fun search(searchQuery: String): ArrayList<Movie> {
         val movies = movieDAO.search(searchQuery)
         val mappedList = arrayListOf<Movie>()
         var yearStackSize = 0
@@ -66,8 +78,48 @@ class MovieRepository(application: Application) {
                 mappedList.add(movies[i])
             }
         }
-        moviesMutableLiveData.postValue(mappedList)
+        return mappedList
 
+    }
+
+    private fun extractYearList(searchResults: ArrayList<Movie>): List<Int> {
+        val yearsList: MutableList<Int> = ArrayList()
+        for (i in searchResults.indices) {
+            yearsList.add(searchResults[i].year!!)
+        }
+        return yearsList.distinct()
+
+
+    }
+
+
+    private fun execute(
+        yearsList: List<Int>,
+        moviesSearchResult: List<Movie>
+    ): MutableMap<Int, List<Movie>> {
+        val map: MutableMap<Int, List<Movie>> =
+            LinkedHashMap()
+        for (i in yearsList.indices) {
+            val filteredMovies: List<Movie> = getMoviesWithYear(moviesSearchResult, yearsList[i])
+            if (filteredMovies.isNotEmpty()) {
+                map[yearsList[i]] = filteredMovies
+            }
+
+        }
+        return map
+    }
+
+    private fun getMoviesWithYear(
+        moviesSearchResult: List<Movie>,
+        year: Int
+    ): List<Movie> {
+        val moviesList: MutableList<Movie> = ArrayList()
+        for (i in moviesSearchResult.indices) {
+            if (year == moviesSearchResult[i].year) {
+                moviesList.add(moviesSearchResult[i])
+            }
+        }
+        return moviesList
     }
 
 
