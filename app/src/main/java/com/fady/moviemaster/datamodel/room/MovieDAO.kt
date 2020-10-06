@@ -14,7 +14,7 @@ abstract class MovieDAO : BaseDao<Movie>() {
     abstract fun getFirstFiveMovies(): LiveData<List<Movie>>
 
 
-    @Query(" SELECT * FROM (SELECT * FROM movie WHERE title GLOB '*' || :searchQuery|| '*') ORDER BY year DESC ")
+    @Query(" SELECT * FROM (SELECT * FROM movie WHERE title GLOB '*' || :searchQuery|| '*') ORDER BY rating DESC ")
     abstract fun search(searchQuery: String): List<Movie>
 
 

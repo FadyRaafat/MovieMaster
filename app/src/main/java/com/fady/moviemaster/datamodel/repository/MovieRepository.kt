@@ -11,6 +11,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.*
 import java.util.concurrent.Executors
+import java.util.stream.Collectors
 import kotlin.collections.ArrayList
 
 class MovieRepository(application: Application) {
@@ -119,7 +120,8 @@ class MovieRepository(application: Application) {
                 moviesList.add(moviesSearchResult[i])
             }
         }
-        return moviesList
+
+        return moviesList.take(5)
     }
 
 
