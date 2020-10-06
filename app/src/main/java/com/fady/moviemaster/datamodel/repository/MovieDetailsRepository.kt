@@ -1,6 +1,5 @@
 package com.fady.moviemaster.datamodel.repository
 
-import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.fady.moviemaster.datamodel.models.FlickrResponse
 import com.fady.moviemaster.datamodel.services.ClientService
@@ -10,7 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class MovieDetailsRepository(application: Application) {
+class MovieDetailsRepository {
 
     private var clientService = ClientService.getClient()
     val requestStatusMutableLiveData = MutableLiveData<String>()

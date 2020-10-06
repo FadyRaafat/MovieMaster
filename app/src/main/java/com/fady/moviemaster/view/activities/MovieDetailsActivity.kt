@@ -1,5 +1,6 @@
 package com.fady.moviemaster.view.activities
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +15,7 @@ import com.fady.moviemaster.view.adapters.PhotosAdapter
 import com.fady.moviemaster.viewmodel.MovieDetailsViewModel
 import kotlinx.android.synthetic.main.activity_movie_details.*
 
-
+@SuppressLint("SetTextI18n")
 class MovieDetailsActivity : AppCompatActivity() {
     private lateinit var movieDetailsViewModel: MovieDetailsViewModel
     var selectedMovie: Movie? = null

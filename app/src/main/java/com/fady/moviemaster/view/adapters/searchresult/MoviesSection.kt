@@ -1,12 +1,13 @@
 package com.fady.moviemaster.view.adapters.searchresult
 
+import android.annotation.SuppressLint
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.fady.moviemaster.R
 import com.fady.moviemaster.datamodel.models.Movie
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters
-
+@SuppressLint("SetTextI18n")
 internal class MoviesSection(
     private val year: String,
     private val moviesList: List<Movie>,

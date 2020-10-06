@@ -1,6 +1,6 @@
 package com.fady.moviemaster.view.adapters
 
-import android.util.Log
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fady.moviemaster.R
 import com.fady.moviemaster.datamodel.models.Movie
 import kotlinx.android.synthetic.main.item_movie.view.*
+
+@SuppressLint("SetTextI18n")
 
 class MoviesAdapter(private val moviesList: List<Movie>) :
     RecyclerView.Adapter<MoviesAdapter.MoviesHolder>() {

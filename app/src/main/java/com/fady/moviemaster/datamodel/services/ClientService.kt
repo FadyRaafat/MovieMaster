@@ -1,12 +1,12 @@
 package com.fady.moviemaster.datamodel.services
 
 import com.fady.moviemaster.datamodel.models.FlickrResponse
-import com.fady.moviemaster.utilis.Constants
 import io.reactivex.Observable
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface ClientService {
 

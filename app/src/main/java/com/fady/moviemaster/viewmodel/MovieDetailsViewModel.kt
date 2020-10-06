@@ -5,11 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.fady.moviemaster.datamodel.models.FlickrResponse
 import com.fady.moviemaster.datamodel.repository.MovieDetailsRepository
-import com.fady.moviemaster.datamodel.repository.MovieRepository
 
 class MovieDetailsViewModel(application: Application) :
     AndroidViewModel(application) {
-    private val mRepository: MovieDetailsRepository = MovieDetailsRepository(application)
+    private val mRepository: MovieDetailsRepository = MovieDetailsRepository()
 
     fun requestMovieStatus(movieTitle: String): MutableLiveData<String> {
         mRepository.getUserDataRemote(movieTitle)
